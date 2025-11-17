@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Issue Details | OT Track</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="logo-wrap">
+      <div class="logo-circle">OT</div>
+      <div class="logo-text">
+        <h1>Campus Issue Tracker</h1>
+        <p class="tagline">Team OT Track</p>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/issues/create" class="nav-link">Report Issue</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="form-section">
+      <h2>Issue Details</h2>
+
+      <div class="form-card">
+        <p><strong>Title:</strong> <%= issue.title %></p>
+        <p><strong>Description:</strong> <%= issue.description %></p>
+        <p><strong>Location:</strong> <%= issue.location %></p>
+        <p><strong>Priority:</strong> <%= issue.priority %></p>
+        <p><strong>Status:</strong> <%= issue.status %></p>
+        <p><strong>Created:</strong> <%= issue.createdAt.toLocaleString() %></p>
+
+        <div class="form-actions" style="margin-top: 1rem;">
+          <a href="/" class="btn btn-outline">Back to List</a>
+          <a href="/issues/<%= issue.id %>/edit" class="btn btn-primary">Edit Issue</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <%= new Date().getFullYear() %> OT Track</p>
+  </footer>
+</body>
+</html>
