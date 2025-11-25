@@ -15,9 +15,17 @@
         <p class="tagline">Team OT Track</p>
       </div>
     </div>
+
     <nav class="main-nav">
       <a href="/" class="nav-link active">Home</a>
-      <a href="/issues/create" class="nav-link">Report Issue</a>
+
+      <% if (!session || !session.userId) { %>
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="nav-link">Register</a>
+      <% } else { %>
+        <a href="/issues/create" class="nav-link">Report Issue</a>
+        <a href="/logout" class="nav-link">Logout</a>
+      <% } %>
     </nav>
   </header>
 
@@ -29,7 +37,12 @@
           Use this tool to log problems like broken lights, heating issues,
           or faulty lab equipment so they can be tracked and resolved.
         </p>
-        <a href="/issues/create" class="btn btn-primary">Report Issue</a>
+
+        <% if (session && session.userId) { %>
+          <a href="/issues/create" class="btn btn-primary">Report Issue</a>
+        <% } else { %>
+          <a href="/login" class="btn btn-primary">Login to Report Issue</a>
+        <% } %>
       </div>
     </section>
 
@@ -59,18 +72,22 @@
                     <%= issue.priority || 'Low' %>
                   </td>
                   <td><%= issue.status || 'Open' %></td>
+
                   <td class="actions-col">
                     <a href="/issues/<%= issue._id %>" class="btn btn-small">View</a>
-                    <a href="/issues/<%= issue._id %>/edit" class="btn btn-small btn-outline">Edit</a>
-                    <form
-                      action="/issues/<%= issue._id %>?_method=DELETE"
-                      method="POST"
-                      class="inline-form"
-                    >
-                      <button type="submit" class="btn btn-small btn-danger">
-                        Delete
-                      </button>
-                    </form>
+
+                    <% if (session && session.userId) { %>
+                      <a href="/issues/<%= issue._id %>/edit" class="btn btn-small btn-outline">Edit</a>
+                      <form
+                        action="/issues/<%= issue._id %>?_method=DELETE"
+                        method="POST"
+                        class="inline-form"
+                      >
+                        <button type="submit" class="btn btn-small btn-danger">
+                          Delete
+                        </button>
+                      </form>
+                    <% } %>
                   </td>
                 </tr>
               <% }); %>
@@ -80,7 +97,11 @@
       <% } else { %>
         <p class="empty-state">
           There are no reported issues yet. Be the first to
-          <a href="/issues/create">report an issue</a>.
+          <% if (session && session.userId) { %>
+            <a href="/issues/create">report an issue</a>.
+          <% } else { %>
+            <a href="/login">log in to report an issue</a>.
+          <% } %>
         </p>
       <% } %>
     </section>

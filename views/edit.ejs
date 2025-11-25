@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Edit Issue | Campus Issue Tracker</title>
+  <title>Edit Issue | OT Track</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -15,80 +15,48 @@
         <p class="tagline">Team OT Track</p>
       </div>
     </div>
+
     <nav class="main-nav">
       <a href="/" class="nav-link">Home</a>
-      <a href="/issues/create" class="nav-link">Report Issue</a>
+
+      <% if (!session || !session.userId) { %>
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="nav-link">Register</a>
+      <% } else { %>
+        <a href="/logout" class="nav-link">Logout</a>
+      <% } %>
     </nav>
   </header>
 
   <main class="container">
-    <section class="form-section">
-      <h2>Edit Issue</h2>
-      <p class="form-desc">
-        Update the details of this issue and save your changes.
-      </p>
+    <h2>Edit Issue</h2>
 
-      <form
-        action="/issues/<%= issue._id %>?_method=PUT"
-        method="POST"
-        class="form-card"
-      >
-        <div class="form-group">
-          <label for="title">Issue Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            value="<%= issue.title %>"
-          />
-        </div>
+    <form action="/issues/<%= issue._id %>?_method=PUT" method="POST" class="form-card">
+      <label>Title</label>
+      <input type="text" name="title" value="<%= issue.title %>" required />
 
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            required
-          ><%= issue.description %></textarea>
-        </div>
+      <label>Description</label>
+      <textarea name="description"><%= issue.description %></textarea>
 
-        <div class="form-group">
-          <label for="location">Location</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            required
-            value="<%= issue.location %>"
-          />
-        </div>
+      <label>Location</label>
+      <input type="text" name="location" value="<%= issue.location %>" required />
 
-        <div class="form-group">
-          <label for="priority">Priority</label>
-          <select id="priority" name="priority" required>
-            <option value="Low" <%= issue.priority === 'Low' ? 'selected' : '' %>>Low</option>
-            <option value="Medium" <%= issue.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
-            <option value="High" <%= issue.priority === 'High' ? 'selected' : '' %>>High</option>
-          </select>
-        </div>
+      <label>Priority</label>
+      <select name="priority">
+        <option <%= issue.priority === "Low" ? "selected" : "" %> >Low</option>
+        <option <%= issue.priority === "Medium" ? "selected" : "" %> >Medium</option>
+        <option <%= issue.priority === "High" ? "selected" : "" %> >High</option>
+      </select>
 
-        <div class="form-group">
-          <label for="status">Status</label>
-          <select id="status" name="status">
-            <option value="Open" <%= issue.status === 'Open' ? 'selected' : '' %>>Open</option>
-            <option value="In Progress" <%= issue.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
-            <option value="Resolved" <%= issue.status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
-          </select>
-        </div>
+      <label>Status</label>
+      <select name="status">
+        <option <%= issue.status === "Open" ? "selected" : "" %>>Open</option>
+        <option <%= issue.status === "In Progress" ? "selected" : "" %>>In Progress</option>
+        <option <%= issue.status === "Resolved" ? "selected" : "" %>>Resolved</option>
+      </select>
 
-        <div class="form-actions">
-          <a href="/" class="btn btn-outline">Cancel</a>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </div>
-      </form>
-    </section>
+      <button type="submit" class="btn btn-primary">Update Issue</button>
+    </form>
   </main>
 
   <footer class="site-footer">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Report Issue | Campus Issue Tracker</title>
+  <title>Report Issue | OT Track</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -15,70 +15,41 @@
         <p class="tagline">Team OT Track</p>
       </div>
     </div>
+
     <nav class="main-nav">
       <a href="/" class="nav-link">Home</a>
-      <a href="/issues/create" class="nav-link active">Report Issue</a>
+
+      <% if (!session || !session.userId) { %>
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="nav-link">Register</a>
+      <% } else { %>
+        <a href="/logout" class="nav-link">Logout</a>
+      <% } %>
     </nav>
   </header>
 
   <main class="container">
-    <section class="form-section">
-      <h2>Report a New Issue</h2>
-      <p class="form-desc">
-        Fill out the details below to log a facility issue on campus.
-      </p>
+    <h2>Report a New Issue</h2>
 
-      <form action="/issues" method="POST" class="form-card">
-        <div class="form-group">
-          <label for="title">Issue Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            placeholder="e.g., Broken light in hallway"
-          />
-        </div>
+    <form action="/issues" method="POST" class="form-card">
+      <label>Title</label>
+      <input type="text" name="title" required />
 
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            required
-            placeholder="Describe what is wrong and any important details."
-          ></textarea>
-        </div>
+      <label>Description</label>
+      <textarea name="description"></textarea>
 
-        <div class="form-group">
-          <label for="location">Location</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            required
-            placeholder="e.g., Science Building, Room 204"
-          />
-        </div>
+      <label>Location</label>
+      <input type="text" name="location" required />
 
-        <div class="form-group">
-          <label for="priority">Priority</label>
-          <select id="priority" name="priority" required>
-            <option value="">Select priority</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        </div>
+      <label>Priority</label>
+      <select name="priority">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
 
-        <!-- Status can default to "Open" in the backend/model -->
-        <div class="form-actions">
-          <a href="/" class="btn btn-outline">Cancel</a>
-          <button type="submit" class="btn btn-primary">Submit Issue</button>
-        </div>
-      </form>
-    </section>
+      <button type="submit" class="btn btn-primary">Submit Issue</button>
+    </form>
   </main>
 
   <footer class="site-footer">
