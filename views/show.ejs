@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Issue Details | OT Track</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo-wrap">
+      <div class="logo-circle">OT</div>
+      <div class="logo-text">
+        <h1>Campus Issue Tracker</h1>
+        <p class="tagline">Team OT Track</p>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <a href="/" class="nav-link">Home</a>
+
+      <% if (!session || !session.userId) { %>
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="nav-link">Register</a>
+      <% } else { %>
+        <a href="/logout" class="nav-link">Logout</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2><%= issue.title %></h2>
+
+    <div class="detail-card">
+      <p><strong>Description:</strong> <%= issue.description %></p>
+      <p><strong>Location:</strong> <%= issue.location %></p>
+      <p><strong>Priority:</strong> <%= issue.priority %></p>
+      <p><strong>Status:</strong> <%= issue.status %></p>
+    </div>
+
+    <div class="actions-row">
+      <% if (session && session.userId) { %>
+        <a href="/issues/<%= issue._id %>/edit" class="btn btn-outline">Edit</a>
+
+        <form action="/issues/<%= issue._id %>?_method=DELETE" method="POST" class="inline-form">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      <% } %>
+
+      <a href="/" class="btn btn-secondary">Back</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <%= new Date().getFullYear() %> OT Track — Campus Issue Tracker</p>
+  </footer>
+</body>
+</html>

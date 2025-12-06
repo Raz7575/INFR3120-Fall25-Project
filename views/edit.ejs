@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Issue | OT Track</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo-wrap">
+      <div class="logo-circle">OT</div>
+      <div class="logo-text">
+        <h1>Campus Issue Tracker</h1>
+        <p class="tagline">Team OT Track</p>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <a href="/" class="nav-link">Home</a>
+
+      <% if (!session || !session.userId) { %>
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="nav-link">Register</a>
+      <% } else { %>
+        <a href="/logout" class="nav-link">Logout</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Edit Issue</h2>
+
+    <form action="/issues/<%= issue._id %>?_method=PUT" method="POST" class="form-card">
+      <label>Title</label>
+      <input type="text" name="title" value="<%= issue.title %>" required />
+
+      <label>Description</label>
+      <textarea name="description"><%= issue.description %></textarea>
+
+      <label>Location</label>
+      <input type="text" name="location" value="<%= issue.location %>" required />
+
+      <label>Priority</label>
+      <select name="priority">
+        <option <%= issue.priority === "Low" ? "selected" : "" %> >Low</option>
+        <option <%= issue.priority === "Medium" ? "selected" : "" %> >Medium</option>
+        <option <%= issue.priority === "High" ? "selected" : "" %> >High</option>
+      </select>
+
+      <label>Status</label>
+      <select name="status">
+        <option <%= issue.status === "Open" ? "selected" : "" %>>Open</option>
+        <option <%= issue.status === "In Progress" ? "selected" : "" %>>In Progress</option>
+        <option <%= issue.status === "Resolved" ? "selected" : "" %>>Resolved</option>
+      </select>
+
+      <button type="submit" class="btn btn-primary">Update Issue</button>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <%= new Date().getFullYear() %> OT Track — Campus Issue Tracker</p>
+  </footer>
+</body>
+</html>

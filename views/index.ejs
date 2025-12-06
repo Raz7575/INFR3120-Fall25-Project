@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Campus Issue Tracker | OT Track</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo-wrap">
+      <div class="logo-circle">OT</div>
+      <div class="logo-text">
+        <h1>Campus Issue Tracker</h1>
+        <p class="tagline">Team OT Track</p>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <a href="/" class="nav-link active">Home</a>
+
+      <% if (!session || !session.userId) { %>
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="nav-link">Register</a>
+      <% } else { %>
+        <a href="/issues/create" class="nav-link">Report Issue</a>
+        <a href="/logout" class="nav-link">Logout</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Report campus issues quickly and clearly.</h2>
+        <p>
+          Use this tool to log problems like broken lights, heating issues,
+          or faulty lab equipment so they can be tracked and resolved.
+        </p>
+
+        <% if (session && session.userId) { %>
+          <a href="/issues/create" class="btn btn-primary">Report Issue</a>
+        <% } else { %>
+          <a href="/login" class="btn btn-primary">Login to Report Issue</a>
+        <% } %>
+      </div>
+    </section>
+
+    <section class="issues-section">
+      <div class="section-header">
+        <h3>Open Issues</h3>
+      </div>
+
+      <% if (typeof issues !== 'undefined' && issues.length > 0) { %>
+        <div class="table-wrapper">
+          <table class="issues-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% issues.forEach(function(issue) { %>
+                <tr>
+                  <td><%= issue.title %></td>
+                  <td><%= issue.location %></td>
+                  <td class="priority-<%= issue.priority ? issue.priority.toLowerCase() : 'low' %>">
+                    <%= issue.priority || 'Low' %>
+                  </td>
+                  <td><%= issue.status || 'Open' %></td>
+
+                  <td class="actions-col">
+                    <a href="/issues/<%= issue._id %>" class="btn btn-small">View</a>
+
+                    <% if (session && session.userId) { %>
+                      <a href="/issues/<%= issue._id %>/edit" class="btn btn-small btn-outline">Edit</a>
+                      <form
+                        action="/issues/<%= issue._id %>?_method=DELETE"
+                        method="POST"
+                        class="inline-form"
+                      >
+                        <button type="submit" class="btn btn-small btn-danger">
+                          Delete
+                        </button>
+                      </form>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <p class="empty-state">
+          There are no reported issues yet. Be the first to
+          <% if (session && session.userId) { %>
+            <a href="/issues/create">report an issue</a>.
+          <% } else { %>
+            <a href="/login">log in to report an issue</a>.
+          <% } %>
+        </p>
+      <% } %>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <%= new Date().getFullYear() %> OT Track — Campus Issue Tracker</p>
+  </footer>
+</body>
+</html>
