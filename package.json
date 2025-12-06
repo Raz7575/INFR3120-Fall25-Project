@@ -19,8 +19,16 @@
   },
   "homepage": "https://github.com/Raz7575/INFR3120-Fall25-Project#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "bootstrap": "^5.3.8",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "method-override": "^3.0.0"
+    "express-session": "^1.18.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.20.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   }
 }
